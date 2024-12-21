@@ -1,5 +1,7 @@
 # project.main - Clojure Utility Functions
 
+> _Documentation generated using Gemini 1.5 flash model._ 
+
 A small Clojure library providing utility functions for working with numbers.
 
 ## Analysis
