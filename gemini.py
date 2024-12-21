@@ -1,10 +1,5 @@
 import json
 
-"""
-Since the web version of the Gemini 1.5 model is not able to give file, 
-so the output format will be in json and then ask Gemini to make a script to convert it to markdown.
-"""
-
 def json_to_markdown(json_data):
   """Converts a JSON representation of a README to Markdown format."""
 
