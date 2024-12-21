@@ -1,0 +1,13 @@
+{
+    "include_patterns": [
+        "*.clj"
+    ],
+    "exclude_patterns": [
+        "test/*",
+        "tests/*",
+        "docs/*",
+        "examples/*"
+    ],
+    "remove_comments": true,
+    "remove_whitespace": true
+}

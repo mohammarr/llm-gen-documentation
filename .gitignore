@@ -1,0 +1,8 @@
+.clj-kondo/
+.lsp/
+.nrepl-port
+env/
+prompt.txt
+readme.json
+readme.py
+bundled_project/
