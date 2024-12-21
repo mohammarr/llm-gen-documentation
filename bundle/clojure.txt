@@ -1,28 +1,34 @@
-(ns project.main)
+(ns math.app
+  (:require
+   [math.utils :as utils]))
+(defn main
+  "Main function for the application."
+  [& args]
+  (println (utils/greet "World"))
+  (println (utils/circle-area 5))
+  (println (utils/is-positive? -2))
+  (println (utils/classify-number 0)))
 
+(ns math.utils)
 (comment
   "Utility functions for working with numbers.")
-
 (defn greet [name]
   (str "Hello, " name "!"))
-
 (defn circle-area [radius]
   (let [pi 3.14159
         area (* pi radius radius)]
     area))
-
 (defn is-positive? [num]
   (if (> num 0)
     "Yes"
     "No"))
-
 (defn classify-number [num]
   (cond
     (> num 0) "Positive"
     (< num 0) "Negative"
     :else    "Zero"))
-
 (defn factorial [n]
   (if (= n 0)
     1
     (* n (factorial (dec n)))))
+

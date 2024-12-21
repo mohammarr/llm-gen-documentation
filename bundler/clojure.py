@@ -5,20 +5,17 @@ import json
 import argparse
 import fnmatch
 
-def bundle_code(project_root, output_dir, config):
-    """Bundles code by removing comments and unnecessary whitespace and calculates size."""
+def bundle_code(project_root, output_file, config):
+    """Bundles code into a single file by removing comments and whitespace."""
 
     if not os.path.exists(project_root):
         print(f"Error: Project root '{project_root}' does not exist.")
-        return
-
-    if os.path.exists(output_dir):
-        shutil.rmtree(output_dir)
-    shutil.copytree(project_root, output_dir)
+        return None, None
 
     total_characters = 0
+    bundled_content = ""
 
-    for root, _, files in os.walk(output_dir):
+    for root, _, files in os.walk(project_root):
         for filename in files:
             filepath = os.path.join(root, filename)
 
@@ -26,27 +23,31 @@ def bundle_code(project_root, output_dir, config):
                 continue
 
             try:
-                with open(filepath, 'r+', encoding='utf-8') as f:
+                with open(filepath, 'r', encoding='utf-8') as f:  # Open in read mode
                     content = f.read()
-                    original_len = len(content)
 
                     if config.get("remove_comments", True):
                         content = _remove_comments(content, filename)
                     if config.get("remove_whitespace", True):
                         content = _remove_whitespace(content)
 
-                    if len(content) != original_len:
-                        f.seek(0)
-                        f.truncate()
-                        f.write(content)
+                    bundled_content += content + "\n\n"  # Add content and separators
+                    total_characters += len(content)
 
-                    total_characters += len(content) # Accumulate characters
-
-                print(f"Processed: {filepath}")
+                print(f"Bundled: {filepath}")
             except Exception as e:
                 print(f"Error processing {filepath}: {e}")
+                return None, None  # Return None if an error occurs
 
-    return total_characters # Return total characters
+    try:
+        with open(output_file, 'w', encoding='utf-8') as outfile:
+            outfile.write(bundled_content)
+        print(f"Bundled code written to: {output_file}")
+    except Exception as e:
+        print(f"Error writing bundled code: {e}")
+        return None, None
+
+    return total_characters, len(bundled_content.encode('utf-8')) # Return total characters and total bytes
 
 def _should_process_file(filepath, config):
     """Checks if a file should be processed based on include/exclude patterns."""
@@ -82,15 +83,15 @@ def _remove_whitespace(content):
     return content
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Bundles code by removing comments and whitespace.") # Updated description
+    parser = argparse.ArgumentParser(description="Bundles code into a single file.")
     parser.add_argument("project_root", help="Path to the project root directory.")
-    parser.add_argument("-o", "--output", help="Path to the output directory (default: bundled_<project_root>).", default=None) # Updated default output name
+    parser.add_argument("-o", "--output", help="Path to the output file (default: bundled.txt).")
     parser.add_argument("-c", "--config", help="Path to the config file (default: config.json)", default="config.json")
 
     args = parser.parse_args()
 
     project_root = args.project_root
-    output_directory = args.output or f"bundled_{os.path.basename(project_root)}" # Updated output directory name
+    output_file = args.output or f"bundle\\{os.path.basename(project_root)}.txt" # Updated output directory name
     config_file = args.config
 
     try:
@@ -105,21 +106,14 @@ if __name__ == "__main__":
             "remove_whitespace": True
         }
 
-    total_characters = bundle_code(project_root, output_directory, config) # Get total characters
+    total_characters, total_bytes = bundle_code(project_root, output_file, config)
 
-    if total_characters is not None: # Check if bundling was successful
+    if total_characters is not None:
         print("Code bundling complete.")
         print(f"Total characters in bundled code: {total_characters}")
 
-        # Approximate token count (1 token ≈ 4 characters)
         approximate_tokens = total_characters / 4
-        print(f"Approximate token count: {approximate_tokens:.0f}") # Format to whole number
-
-        # Bytes Calculation
-        total_bytes = os.path.getsize(output_directory)
-        for root, _, files in os.walk(output_directory):
-            for file in files:
-                total_bytes += os.path.getsize(os.path.join(root, file))
+        print(f"Approximate token count: {approximate_tokens:.0f}")
         print(f"Total bytes in bundled code: {total_bytes}")
     else:
         print("Code bundling failed.")

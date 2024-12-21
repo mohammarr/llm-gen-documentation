@@ -1,12 +1,12 @@
-# project.main - Clojure Utility Functions
+# math.app - Clojure Mathematical Utility Library
 
-> _Documentation generated using Gemini 1.5 flash model._ 
+> _Generated using Gemini 1.5 flash model._
 
-A small Clojure library providing utility functions for working with numbers.
+A Clojure library providing basic mathematical utility functions and a simple demonstration in the `math.app` namespace.
 
 ## Analysis
 
-* **Purpose:** Provides basic utility functions for common mathematical and string manipulation tasks.
+* **Purpose:** Provides commonly used mathematical functions for calculations and number classification.
 * **Technologies:** Clojure
 * **Frameworks:** None (Pure Clojure functions)
 * **Dependencies:** None (Standalone library)
@@ -22,18 +22,21 @@ No installation required. You can directly use the functions within your Clojure
 
 ## Usage
 
-To use the functions in this library, require the `project.main` namespace in your Clojure project:
+To use the utility functions, require the `math.utils` namespace. The `math.app` namespace demonstrates usage:
 
 ```clojure
-(require '[project.main :as main])
+(require '[math.utils :as utils])
+(require '[math.app :as app])
 
 ;; Example usage:
-(println (main/greet "Alice")) ; Prints: Hello, Alice!
+(app/main) ; Runs the main function demonstrating usage of the utility functions.
+;; Or individual usage:
+(println (utils/greet "Alice")) ; Prints: Hello, Alice!
 ```
 
 ## API
 
-### Available Functions
+### Available Functions (math.utils namespace)
 
 ### `greet`
 
@@ -50,7 +53,7 @@ A greeting string (e.g., "Hello, Alice!").
 **Examples:**
 
 ```clojure
-(main/greet "Alice") ; Output: Hello, Alice!
+(utils/greet "Alice") ; Output: Hello, Alice!
 ```
 
 ### `circle-area`
@@ -68,7 +71,7 @@ The area of the circle.
 **Examples:**
 
 ```clojure
-(main/circle-area 5) ; Output: 78.53975
+(utils/circle-area 5) ; Output: 78.53975
 ```
 
 ### `is-positive?`
@@ -86,11 +89,11 @@ Checks if a number is positive.
 **Examples:**
 
 ```clojure
-(main/is-positive? 5)  ; Output: Yes
+(utils/is-positive? 5)  ; Output: Yes
 ```
 
 ```clojure
-(main/is-positive? -2) ; Output: No
+(utils/is-positive? -2) ; Output: No
 ```
 
 ### `classify-number`
@@ -108,15 +111,15 @@ Classifies a number as positive, negative, or zero.
 **Examples:**
 
 ```clojure
-(main/classify-number 3)  ; Output: Positive
+(utils/classify-number 3)  ; Output: Positive
 ```
 
 ```clojure
-(main/classify-number -1) ; Output: Negative
+(utils/classify-number -1) ; Output: Negative
 ```
 
 ```clojure
-(main/classify-number 0)  ; Output: Zero
+(utils/classify-number 0)  ; Output: Zero
 ```
 
 ### `factorial`
@@ -134,7 +137,7 @@ The factorial of n.
 **Examples:**
 
 ```clojure
-(main/factorial 5) ; Output: 120
+(utils/factorial 5) ; Output: 120
 ```
 
 ## Contributing

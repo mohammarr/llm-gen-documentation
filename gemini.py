@@ -9,7 +9,7 @@ def json_to_markdown(json_data):
   """Converts a JSON representation of a README to Markdown format."""
 
   markdown = f"# {json_data['title']}\n\n"
-  markdown += f"> _Documentation generated using Gemini 1.5 flash model._\n{json_data['description']}\n\n"
+  markdown += f"> _Generated using Gemini 1.5 flash model._\n\n{json_data['description']}\n\n"
 
   # Analysis Section
   markdown += "## Analysis\n\n"
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
   markdown_output = json_to_markdown(json_data)
 
-  with open("README.md", "w", encoding="utf-8") as f:
+  with open("docs\clojure_(gemini).md", "w", encoding="utf-8") as f:
     f.write(markdown_output)
 
   print("README.md generated successfully!")
